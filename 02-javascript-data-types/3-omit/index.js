@@ -5,11 +5,14 @@
  * @returns {object} - returns the new object
  */
 export const omit = (obj, ...fields) => {
-  for (let prop of fields) {
-    delete obj[prop]
+  const fieldsToObject = fields.reduce((previous, current) => ({ ...previous, [current]: current}), {})
+  const omitObject = {}
+
+  for (let [key, value] of Object.entries(obj)) {
+    if (key !== fieldsToObject[key]) {
+      omitObject[key] = value
+    }
   }
 
-  return {
-    ...obj
-  }
+  return omitObject
 };

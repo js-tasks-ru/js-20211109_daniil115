@@ -7,7 +7,7 @@
 export const pick = (obj, ...fields) => {
   const pickedProps = {}
 
-  for (let prop of fields) {
+  for (const prop of fields) {
     if (prop in obj) {
       pickedProps[prop] = obj[prop]
     }
