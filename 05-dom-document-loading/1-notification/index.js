@@ -1,15 +1,17 @@
 export default class NotificationMessage {
-  constructor (message, { duration = 0, type = 'error' } = {}) {
+  static isElementExist
+
+  constructor (message = '', { duration = 0, type = 'error' } = {}) {
     this.duration = duration
     this.type = type
     this.message = message
-    this.id = 'added'
-    this.show()
+
+    this.render()
   }
 
-  getTemplate () {
+  get getTemplate () {
     return `
-      <div id="${ this.id }" class="notification ${ this.type }" style="--value:${ this.humanTime }">
+      <div class="notification ${ this.type }" style="--value:${ this.humanTime }">
         <div class="timer"></div>
         <div class="inner-wrapper">
           <div class="notification-header">
@@ -23,13 +25,19 @@ export default class NotificationMessage {
     `
   }
 
-  show (div) {
-    const element = !div ? document.createElement('div') : div
-    element.innerHTML = this.getTemplate()
+  render () {
+    const element = document.createElement('div')
+    element.innerHTML = this.getTemplate
     this.element = element.firstElementChild
-    const isExist = document.querySelector(`#${ this.id }`)
-    !isExist ? document.body.append(this.element) : null
+  }
 
+  show (div = document.body) {
+    if (NotificationMessage.isElementExist) {
+      NotificationMessage.isElementExist.destroy()
+    }
+
+    NotificationMessage.isElementExist = this
+    div.append(this.element)
     this.remove()
   }
 
