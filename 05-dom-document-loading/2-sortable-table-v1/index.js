@@ -67,7 +67,7 @@ export default class SortableTable {
   createHeader (header) {
     return header
       .map(head => {
-        const h = `
+        const columnTitle = `
         <div
           class="sortable-table__cell"
           data-id="${ head.id }"
@@ -85,7 +85,7 @@ export default class SortableTable {
         </span>
         </div>
         `
-        return head.sortable ? h + arrow : h + '</div>'
+        return head.sortable ? columnTitle + arrow : columnTitle + '</div>'
       })
       .join('')
   }

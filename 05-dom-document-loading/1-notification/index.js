@@ -1,5 +1,5 @@
 export default class NotificationMessage {
-  static isElementExist
+  static previousInstance
 
   constructor (message = '', { duration = 0, type = 'error' } = {}) {
     this.duration = duration
@@ -32,11 +32,11 @@ export default class NotificationMessage {
   }
 
   show (div = document.body) {
-    if (NotificationMessage.isElementExist) {
-      NotificationMessage.isElementExist.destroy()
+    if (NotificationMessage.previousInstance) {
+      NotificationMessage.previousInstance.destroy()
     }
 
-    NotificationMessage.isElementExist = this
+    NotificationMessage.previousInstance = this
     div.append(this.element)
     this.remove()
   }

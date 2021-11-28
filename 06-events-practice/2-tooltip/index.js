@@ -1,11 +1,14 @@
 class Tooltip {
-  static checkInstance
+  static isInstanceExist
 
   constructor() {
-    if (!Tooltip.checkInstance) {
-      Tooltip.checkInstance = this
+    this.activeTooltip = null
+    this.counter = 0
+
+    if (!Tooltip.isInstanceExist) {
+      Tooltip.isInstanceExist = this
     } else {
-      return Tooltip.checkInstance
+      return Tooltip.isInstanceExist
     }
   }
 
@@ -28,21 +31,32 @@ class Tooltip {
   initialize () {
     document.addEventListener('pointerover', this.overEvent.bind(this))
     document.addEventListener('pointerout', this.outEvent.bind(this))
+    document.addEventListener('mousemove', this.moveEvent.bind(this))
   }
 
   overEvent (e) {
     const isToolTip = e.target.dataset.tooltip
 
-    if (isToolTip) this.render(e.target.dataset.tooltip)
-  }
+    if (isToolTip && isToolTip !== this.activeTooltip) {
+      if (this.element) this.destroy()
+      this.activeTooltip = isToolTip
 
+      this.render(isToolTip)
+    }
+  }
+  // TODO
+  // Не понятно, почему при выводе в консоль срабатывает то undefined, то само значение data-tooltip.
+  // И как таким образом скрывать tooltip, если он вышел за пределы этого data-tooltip?
+  // Получилось только с pointerover.
   outEvent (e) {
     const isToolTip = e.target.dataset.tooltip
+    console.log(isToolTip)
+  }
 
-    if (isToolTip) {
-      this.destroy()
-      document.removeEventListener('pointerover', this.overEvent.bind(this))
-      document.removeEventListener('pointerout', this.outEvent.bind(this))
+  moveEvent (e) {
+    if (this.element) {
+      this.element.style.left = `${ Math.floor(e.clientX) }px`
+      this.element.style.top = `${ Math.floor(e.clientY) }px`
     }
   }
 
