@@ -21,8 +21,9 @@ export default class SortableTable {
     this.headerConfig = SortableTable.prepareHeader(headerConfig)
     this.flowSort = null
     this.typeSort = null
-
     this.render()
+
+    this.dataElements = [...this.element.querySelectorAll('[data-element]')]
   }
 
   render () {
@@ -57,11 +58,13 @@ export default class SortableTable {
   }
 
   get subElements () {
-    const body = document.querySelector('[data-element="body"]')
+    const elements = {}
 
-    return {
-      body
+    for (const el of this.dataElements) {
+      elements[el.dataset.element] = el
     }
+
+    return elements
   }
 
   createHeader (header) {
