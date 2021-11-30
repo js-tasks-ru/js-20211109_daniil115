@@ -1,24 +1,7 @@
 export default class SortableTable {
-  static prepareHeader (header) {
-    let arrowActive = true
-
-    return header.map((head, i) => {
-      if (head.sortable && arrowActive) {
-        head.arrow = true
-        arrowActive = false
-      }
-      else if (head.sortable && arrowActive) {
-        head.arrow = false
-      }
-
-      return head
-    })
-  }
-
-
   constructor(headerConfig = [], { data = [] }) {
     this.data = data
-    this.headerConfig = SortableTable.prepareHeader(headerConfig)
+    this.headerConfig = headerConfig
     this.flowSort = null
     this.typeSort = null
     this.render()
@@ -88,7 +71,7 @@ export default class SortableTable {
         </span>
         </div>
         `
-        return head.sortable ? columnTitle + arrow : columnTitle + '</div>'
+        return columnTitle
       })
       .join('')
   }
