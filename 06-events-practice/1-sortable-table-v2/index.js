@@ -41,12 +41,12 @@ export default class SortableTable {
   initializeListeners () {
     const { header } = this.subElements
 
-    header.addEventListener('pointerdown', this.pointerDownEvent.bind(this))
+    header.addEventListener('pointerdown', this.pointerDownEvent.bind(this), true)
   }
 
   pointerDownEvent (e) {
-    const sortId = e.target.dataset.id
-    let flow = e.target.dataset.order
+    const sortId = e.target.closest(".sortable-table__cell").dataset.id
+    let flow = e.target.closest(".sortable-table__cell").dataset.order
 
     if (sortId) {
       this.foundColumn = this.headerConfig.find(column => column.id === sortId)
@@ -57,12 +57,12 @@ export default class SortableTable {
         flow = 'asc'
       }
 
-      if (e.target !== this.activeColumnElement) {
+      if (e.target.closest(".sortable-table__cell") !== this.activeColumnElement) {
         this.activeColumnElement = e.target
         this.addArrow()
       }
 
-      e.target.dataset.order = flow
+      e.target.closest(".sortable-table__cell").dataset.order = flow
       this.sort(this.foundColumn.id, flow, this.foundColumn.sortType)
     }
   }
